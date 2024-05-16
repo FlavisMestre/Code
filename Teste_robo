@@ -1,0 +1,68 @@
+import re
+
+def normalize_fatura(fatura):
+    def extrair_valor(regex, texto):
+        match = re.search(regex, texto)
+        valor = match.group(1).strip() if match else None
+        if valor:
+            valor = valor.replace('.', '').replace(',', '.')
+        return valor
+
+    def extrair_valor_monetario(regex, texto):
+        valor = extrair_valor(regex, texto)
+        return float(valor) if valor else 0.0
+
+    # Dados dos clientes
+    cnpj = extrair_valor(r'CNPJ:\s*([\d\.\-\/]+)', fatura)
+    conta_contrato = extrair_valor(r'Conta Contrato:\s*(\d+)', fatura)
+    unidade = extrair_valor(r'Unidade:\s*(\d+)', fatura)
+    nota_fiscal = extrair_valor(r'Nota Fiscal:\s*(\d+)', fatura)
+    medidor = extrair_valor(r'Medidor:\s*(\d+)', fatura)
+
+    # Itens de validação (leitura, consumo e tributos)
+    codigo_barras = extrair_valor(r'Código de Barras:\s*([\d\s]+)', fatura)
+    fisco = extrair_valor(r'Fisco:\s*([\d\w]+)', fatura)
+    chave_acesso = extrair_valor(r'Chave de Acesso:\s*([\d\w]+)', fatura)
+    constante = extrair_valor(r'Constante:\s*([\d\.]+)', fatura)
+    leitura_atual = extrair_valor(r'Leitura Atual:\s*([\d\.]+)', fatura)
+    leitura_anterior = extrair_valor(r'Leitura Anterior:\s*([\d\.]+)', fatura)
+    consumo_faturado = extrair_valor(r'Consumo Faturado:\s*([\d\.]+)', fatura)
+    pis = extrair_valor_monetario(r'PIS:\s*R?\$?\s*([\d\.,]+)', fatura)
+    cofins = extrair_valor_monetario(r'COFINS:\s*R?\$?\s*([\d\.,]+)', fatura)
+    icms = extrair_valor_monetario(r'ICMS:\s*R?\$?\s*([\d\.,]+)', fatura)
+    valor_total_fatura = extrair_valor_monetario(r'Valor Total da Fatura:\s*R?\$?\s*([\d\.,]+)', fatura)
+    cosip_são_paulo__municipal = extrair_valor_monetario(r'COSIP - SÃO PAULO - MUNICIPAL:\s*R?\$?\s*([\d\.,]+)', fatura)
+    consumo = extrair_valor(r'Consumo:\s*([\d\.,]+)\s*kWh', fatura)
+    consumo_injetado = extrair_valor(r'Consumo Injetado:\s*([\d\.,]+)\s*kWh', fatura)
+    valor_kwh = extrair_valor_monetario(r'Valor em kWh:\s*R?\$?\s*([\d\.,]+)', fatura)
+
+    dados_normalizados = {
+        'CNPJ': cnpj,
+        'Conta Contrato': conta_contrato,
+        'Unidade': unidade,
+        'Nota Fiscal': nota_fiscal,
+        'Medidor': medidor,
+        'Código de Barras': codigo_barras,
+        'Fisco': fisco,
+        'Chave de Acesso': chave_acesso,
+        'Constante': constante,
+        'Leitura Atual': leitura_atual,
+        'Leitura Anterior': leitura_anterior,
+        'Consumo Faturado': consumo_faturado,
+        'PIS': pis,
+        'COFINS': cofins,
+        'ICMS': icms,
+        'Valor Total da Fatura': valor_total_fatura,
+        'COSIP - SÃO PAULO - MUNICIPAL': cosip_são_paulo__municipal,
+        'Consumo': consumo,
+        'Consumo Injetado': consumo_injetado,
+        'Valor em kWh': valor_kwh
+    }
+
+return dados_normalizados
+dados = normalize_fatura(fatura_texto)
+for chave, valor in dados.items():
+    if isinstance(valor, float):
+        print(f"{chave}: {valor:.2f}")
+    else:
+        print(f"{chave}: {valor}")
