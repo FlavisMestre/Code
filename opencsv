@@ -3,8 +3,8 @@ import pandas as pd
 import os
 
 def csv_to_json():
-    enelsp.csv = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\fatura.csv'
-    enelsp.json = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\fatura.json'
+    fatura1.csv = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\fatura.csv'
+    fatura1.json = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\fatura.json'
     
     with open(enelsp.csv, 'r', encoding='latin1') as csvfile:
         lines = csvfile.readlines()
