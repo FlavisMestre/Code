@@ -28,13 +28,13 @@ def normalize_fatura(fatura):
     leitura_anterior = extrair_valor(r'Leitura Anterior:\s*([\d\.]+)', fatura)
     consumo_faturado = extrair_valor(r'Consumo Faturado:\s*([\d\.]+)', fatura)
     pis = extrair_valor_monetario(r'PIS:\s*R?\$?\s*([\d\.,]+)', fatura)
-    cofins = extrair_valor_monetario(r'COFINS:\s*R?\$?\s*([\d\.,]+)', fatura)
-    icms = extrair_valor_monetario(r'ICMS:\s*R?\$?\s*([\d\.,]+)', fatura)
-    valor_total_fatura = extrair_valor_monetario(r'Valor Total da Fatura:\s*R?\$?\s*([\d\.,]+)', fatura)
-    cosip_são_paulo__municipal = extrair_valor_monetario(r'COSIP - SÃO PAULO - MUNICIPAL:\s*R?\$?\s*([\d\.,]+)', fatura)
+    cofins = extrair_valor(r'COFINS:\s*R?\$?\s*([\d\.,]+)', fatura)
+    icms = extrair_valor(r'ICMS:\s*R?\$?\s*([\d\.,]+)', fatura)
+    valor_total_fatura = extrair_valor(r'Valor Total da Fatura:\s*R?\$?\s*([\d\.,]+)', fatura)
+    cosip_são_paulo_municipal = extrair_valor(r'COSIP - SÃO PAULO - MUNICIPAL:\s*R?\$?\s*([\d\.,]+)', fatura)
     consumo = extrair_valor(r'Consumo:\s*([\d\.,]+)\s*kWh', fatura)
     consumo_injetado = extrair_valor(r'Consumo Injetado:\s*([\d\.,]+)\s*kWh', fatura)
-    valor_kwh = extrair_valor_monetario(r'Valor em kWh:\s*R?\$?\s*([\d\.,]+)', fatura)
+    consumo_kwh = extrair_valor(r'Consumo kWh:\s*R?\$?\s*([\d\.,]+)', fatura)
 
     dados_normalizados = {
         'CNPJ': cnpj,
@@ -56,7 +56,7 @@ def normalize_fatura(fatura):
         'COSIP - SÃO PAULO - MUNICIPAL': cosip_são_paulo__municipal,
         'Consumo': consumo,
         'Consumo Injetado': consumo_injetado,
-        'Valor em kWh': valor_kwh
+        'Consumo kWh': Consumo_kwh
     }
 
 return dados_normalizados
