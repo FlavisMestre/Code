@@ -4,7 +4,7 @@ import os
 
 def csv_to_json():
     enelsp.csv = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\enelsp.csv'
-    enelsp.json = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\src\\enelsp.json'
+    enelsp.json = r'C:\\Users\\flavimar.pedro\\Documents\\TESTE_ROBO\\Projeto_normal\\enelsp.json'
     
     with open(enelsp.csv, 'r', encoding='latin1') as csvfile:
         lines = csvfile.readlines()
